@@ -9,6 +9,13 @@ body {
 	overflow-x: hidden;
 }
 
+/* Just messing */
+#root {
+	display: flex;
+	min-height: 100vh;
+	align-items: center;
+}
+
 #wrapper {
 	margin: auto;
 	width: 300px;
@@ -16,7 +23,7 @@ body {
 
 #game {
 	position: relative;
-	margin: 40px auto 20px;
+	margin: 30px auto 20px;
 	/* Font-awesome has a z-index? I think...? */
 	z-index: 5;
 }
@@ -28,26 +35,27 @@ body {
 }
 
 /* Header Stuff */
-
 .header {
+	align-items: flex-end;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 0.6em;
 	width: 100%;
 }
 
 h1 {
-	float: left;
-	margin-top: 60px;
 	font-family: Helvetica Neue, Arial, sans-serif;
+	padding-bottom: 0.6em;
+	flex-grow: 1;
 	font-size: 1.4em;
-	/* font-size: 3.2em; */
+	text-align: center;
 	color: white;
 }
 
 .header-container {
-	float: right;
+	display: flex;
 }
 .score-container {
-	margin-top: 40px;
-	float: left;
 	position: relative;
 }
 .score-container + .score-container {
@@ -411,7 +419,7 @@ h1 span {
 	animation-delay: 1.5s;
 	animation-duration: 0.2s;
 	/* Prevents overlay moving around in some browsers */
-	height: 40px;
+	/* height: 40px; */
 }
 
 @keyframes zoomFadeIn {
@@ -488,8 +496,9 @@ h1 span {
 	}
 
 	h1 {
-		margin-top: 40px;
 		font-size: 3.2em;
+		padding-bottom: 0;
+		text-align: left;
 	}
 	.overlay {
 		min-height: 500px;
