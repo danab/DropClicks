@@ -1,0 +1,556 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background: #191919;
+	overflow-x: hidden;
+}
+
+#wrapper {
+	margin: auto;
+	width: 300px;
+}
+
+#game {
+	position: relative;
+	margin: 40px auto 20px;
+	/* Font-awesome has a z-index? I think...? */
+	z-index: 5;
+}
+
+.clearfix {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+/* Header Stuff */
+
+.header {
+	width: 100%;
+}
+
+h1 {
+	float: left;
+	margin-top: 60px;
+	font-family: Helvetica Neue, Arial, sans-serif;
+	font-size: 1.4em;
+	/* font-size: 3.2em; */
+	color: white;
+}
+
+.header-container {
+	float: right;
+}
+.score-container {
+	margin-top: 40px;
+	float: left;
+	position: relative;
+}
+.score-container + .score-container {
+	margin-left: 10px;
+}
+
+.score {
+	/* position: relative; */
+	/* display: inline-block; */
+	/* background: #0b2239; */
+	background: #0a4a2c;
+	padding: 10px 10px;
+	font-size: 1.2em;
+	/* height: 25px; */
+	/* line-height: 47px; */
+	font-weight: bold;
+	border-radius: 3px;
+	/* color: white; */
+
+	color: #ddcd22;
+	margin-top: 8px;
+	text-align: center;
+}
+
+.score-header {
+	color: #efef00;
+	font-size: 0.6em;
+}
+
+.moves {
+	text-align: center;
+}
+
+.icon-holder {
+	display: inline-block;
+	margin: 10px;
+	cursor: pointer;
+	color: white;
+	font-size: 40px;
+}
+
+.moves .icon-holder {
+	display: inline-block;
+	margin: 10px;
+	cursor: pointer;
+}
+
+.moves-holder {
+	vertical-align: top;
+}
+.moves-holder-wrapper {
+	color: white;
+	font-size: 16px;
+	text-align: center;
+	height: 40px;
+	width: 60px;
+	cursor: default;
+}
+
+.moves-header {
+	font-size: 1em;
+	/* margin-top: 10px; */
+	font-weight: bold;
+}
+
+.moves-remaining {
+	font-size: 1.2em;
+}
+
+/*  Why doesn't this work? */
+.moves i {
+	color: white;
+	font-size: 80px;
+}
+
+h1 span {
+	color: rgb(223, 255, 163);
+	color: #83af3f;
+	color: #1a8037;
+}
+
+.overlay {
+	box-sizing: content-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	top: -1em;
+	color: #ddcd22;
+	background: rgba(10, 74, 44, 0.9);
+	right: -1em;
+	padding: 1em;
+	border-radius: 2em;
+	position: absolute;
+	min-height: 24em;
+
+	animation-name: fadein;
+	/* animation-iteration-count: infinite; */
+	animation-duration: 0.8s;
+	animation-timing-function: ease;
+	user-select: none;
+	width: 300px;
+	z-index: 1000;
+}
+
+/* Didn't work with CSSTransitionGroup...not a high priority */
+/* .overlay-leave {
+	animation-name: fadein;
+	animation-duration: 8s;
+	animation-direction: reverse;
+	animation-timing-function: linear;
+} */
+.overlay h2 {
+	text-align: center;
+	color: #efef00;
+	font-size: 1.9em;
+	/* font-size: 2.8em; */
+	margin-top: 20px;
+	margin-bottom: 0.6em;
+}
+
+.overlay h3 {
+	text-align: center;
+	font-size: 1em;
+	margin-top: 0.6em;
+}
+
+.overlay .final-score {
+	color: white;
+	font-size: 1.6em;
+}
+
+.overlay h3 span {
+	color: white;
+}
+
+.overlay-text {
+	font-size: 1.2em;
+	margin: 10px 20px;
+	text-align: center;
+}
+
+.translateX,
+.translateY {
+	will-change: transform;
+}
+.upright .translateY,
+.sideways .translateX {
+	transition: transform 0.3s cubic-bezier(0.21, -0.61, 0.46, -0.34);
+}
+.sideways .translateY,
+.upright .translateX,
+.falling.sideways .translateX,
+.falling.upright .translateX,
+.falling.sideways .translateY,
+.falling.upright .translateY {
+	transition: transform 0.3s ease;
+}
+
+#game .explode-leave .square {
+	background: none;
+	/* opacity: 0; */
+	transform: scale(0);
+	transition: all 0.3s ease;
+}
+.square {
+	border-radius: 25%;
+	height: 96%;
+	position: absolute;
+	width: 96%;
+}
+
+.color-4 {
+	background: #0b2239;
+}
+.color-3 {
+	background: #0a4a2c;
+}
+.color-2 {
+	background: #1a8037;
+}
+.color-1 {
+	background: #83af3f;
+}
+.color-0 {
+	background: #ddcd22;
+}
+
+.rotating {
+	transition: all 0.3s ease;
+}
+
+.timer {
+	background: white;
+	border-radius: 5px;
+	height: 10px;
+	margin: auto;
+}
+
+.timer-inactive {
+	opacity: 0.3;
+}
+
+.timer-wrapper {
+	margin: auto;
+}
+.timer-animation {
+	animation-name: timer;
+	animation-timing-function: linear;
+}
+
+@keyframes fadein {
+	from {
+		opacity: 0;
+		/* top: 0;
+		left: 0;
+		padding: 0; */
+	}
+
+	to {
+		/* top: -1em;
+		left: -1em; */
+		opacity: 1;
+		/* padding: 1em; */
+	}
+}
+
+@keyframes timer {
+	from {
+		width: 100%;
+		background: white;
+	}
+
+	79% {
+		background: white;
+	}
+	80% {
+		background: red;
+	}
+	to {
+		width: 0;
+		background: red;
+	}
+}
+
+.btn-wrapper {
+	text-align: center;
+	margin: 20px;
+}
+.btn {
+	/* background: #83af3f; */
+	/* color: #0a4a2c; */
+	/* border: 0 none; */
+	background: #a9cc73;
+	color: #0a4a2d;
+	border: 3px solid #a9cc73;
+	border-radius: 6px 6px 6px 6px;
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 1.125em;
+	font-family: 'Lato', 'Helvetica Neue', 'Helvetica', Helvetica, Arial,
+		sans-serif;
+	margin: 0 0.625em;
+	outline: 0 none;
+	text-decoration: none;
+	line-height: inherit;
+	padding: 0.875em 1.125em;
+	margin-bottom: 0.625em;
+	transition: all 0.4s ease;
+}
+
+.btn:hover {
+	background: #0a4a2d;
+	border: 3px solid #ddce23;
+	color: #ddce23;
+}
+
+.highscore-input {
+	text-align: center;
+}
+
+.highscore-input input {
+	background: transparent;
+	color: white;
+	height: 60px;
+	font-size: 60px;
+	margin: 10px;
+	padding: 0 0.2em;
+	text-align: center;
+	font-family: Courier New, Courier, monospace;
+}
+
+.highscore-initials {
+	float: left;
+}
+.highscore-date {
+	float: right;
+	display: none;
+}
+
+@keyframes scorefadeout {
+	from {
+		opacity: 1;
+		top: 50%;
+	}
+
+	90% {
+		opacity: 0.6;
+	}
+	to {
+		top: -30%;
+		/* font-size: 0.8em; */
+		opacity: 0;
+	}
+}
+
+.last-score {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -50px;
+	width: 100px;
+	color: white;
+	text-align: center;
+	font-size: 1.2em;
+	animation-name: scorefadeout;
+	animation-duration: 0.5s;
+	opacity: 0;
+}
+
+.bonus-wrapper {
+	height: 120px;
+}
+.piece-bonus,
+.time-bonus,
+.total-score,
+.next-level {
+	animation-name: zoomFadeIn;
+	animation-duration: 0.6s;
+	/* animation-iteration-count: infinite; */
+	animation-fill-mode: forwards;
+	visibility: hidden;
+}
+
+.time-bonus {
+}
+.piece-bonus {
+	animation-delay: 0.5s;
+}
+.total-score {
+	animation-delay: 1s;
+}
+.next-level {
+	opacity: 0;
+	margin-top: 2em;
+	animation-delay: 1.5s;
+	animation-duration: 0.2s;
+	/* Prevents overlay moving around in some browsers */
+	height: 40px;
+}
+
+@keyframes zoomFadeIn {
+	from {
+		font-size: 0.3em;
+		opacity: 0;
+		visibility: visible;
+	}
+
+	to {
+		font-size: 1.6em;
+		opacity: 1;
+		visibility: visible;
+	}
+}
+.highscore-wrapper {
+	text-align: center;
+}
+
+.highscore-table {
+	list-style: none;
+	display: inline-block;
+	/* width: 450px; */
+	width: 260px;
+	text-align: left;
+}
+.highscore-table li {
+	font-size: 1.4em;
+	display: block;
+	position: relative;
+	/* margin-bottom: 10px; */
+	height: 1.2em;
+}
+.highscore-table li.new-score {
+	color: white;
+}
+/* .highscore-table li:not(:nth-child(1)):not(:nth-child(2))  */
+.highscore-score {
+	float: right;
+}
+.highscore-table li:nth-child(1) {
+	font-size: 2.2em;
+	margin-bottom: 0.4em;
+}
+.highscore-table li:nth-child(2) {
+	font-size: 1.8em;
+	margin-bottom: 0.2em;
+}
+.highscore-table li:nth-child(3) {
+	font-size: 1.6em;
+	margin-bottom: 5px;
+}
+
+.paused-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+.paused-button-wrapper {
+	display: block;
+	text-align: center;
+}
+
+.paused-button-wrapper .btn {
+	font-size: 1.4em;
+	width: 180px;
+}
+@media (min-width: 600px) {
+	#wrapper {
+		width: 500px;
+	}
+
+	h1 {
+		margin-top: 40px;
+		font-size: 3.2em;
+	}
+	.overlay {
+		min-height: 500px;
+		width: 500px;
+		padding-bottom: 136px;
+	}
+	.overlay.overlay-high-score {
+		min-height: 636px;
+		padding-bottom: 0;
+		justify-content: space-around;
+	}
+	.overlay h2 {
+		font-size: 2.8em;
+		margin-bottom: 1.5em;
+	}
+	.overlay h3 {
+		margin: 20px;
+	}
+
+	.overlay-text {
+		font-size: 1.2em;
+		margin: 40px 20px;
+	}
+
+	.next-level {
+		margin-top: 3.5em;
+	}
+	.highscore-input input {
+		height: 80px;
+		font-size: 80px;
+		margin: 20px;
+		padding: 0 0.2em;
+	}
+
+	.moves-holder-wrapper {
+		height: 80px;
+		width: 80px;
+	}
+
+	.moves-header {
+		font-size: 1.4em;
+		margin-top: 10px;
+	}
+
+	.moves-remaining {
+		font-size: 2em;
+	}
+	.icon-holder {
+		font-size: 80px;
+	}
+
+	.highscore-table {
+		width: 450px;
+	}
+	.highscore-score {
+		position: absolute;
+		left: 120px;
+	}
+	.highscore-date {
+		display: block;
+	}
+	.bonus-wrapper {
+		height: 180px;
+	}
+	.highscore-table li {
+		height: 1.4em;
+	}
+}

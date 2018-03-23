@@ -1,0 +1,3 @@
+# DropClicks
+
+Inspired by a host of other games, but especially "QBeez". You can check it out at http://dropclicks.net. Also, this represents a "clean" start, but you can see the dev progress that got here at https://github.com/danab/QBennettz. The other repository exists as history, plus all my family have that link...
