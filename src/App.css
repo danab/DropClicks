@@ -190,6 +190,10 @@ h1 span {
 	text-align: center;
 }
 
+.translateX {
+	/* Prevents horizontal overflow */
+	position: absolute;
+}
 .translateX,
 .translateY {
 	will-change: transform;
