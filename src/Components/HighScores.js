@@ -56,12 +56,17 @@ export default class HighScores extends Component {
 					<ol className="highscore-table">
 						{this.props.scores.map((score, i) => {
 							const classes =
-								place && i === place - 1 ? 'clearfix new-score' : 'clearfix';
+								place && i === place - 1
+									? 'highscore-li new-score'
+									: 'highscore-li';
 
 							const date = moment(score.date).format('MM-DD-YY');
 							return (
 								<li key={i} className={classes}>
-									<span className="highscore-initials">{score.initials}</span>
+									<span className="highscore-initials">
+										<span className="highscore-place">{i + 1}.</span>{' '}
+										{score.initials}
+									</span>
 									<span className="highscore-score">
 										{score.score.toLocaleString()}
 									</span>
