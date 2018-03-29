@@ -5,22 +5,13 @@ import { GAME_SIZE, LEVELS } from './constants';
 
 import * as BoardLogic from './BoardLogic';
 import * as LevelLogic from './LevelLogic';
+import { saveState } from './StorageLogic';
 
 import Square from './Components/Square';
 import Timer from './Components/Timer';
 import Buttons from './Components/Buttons';
 import LastScore from './Components/LastScore';
 import Overlays from './Components/Overlays';
-
-const saveState = state => {
-	// Don't need the animation to replay...
-	state.lastScore = 0;
-
-	if (state.levelOver) {
-		// Lets grab the next level
-	}
-	localStorage.setItem('board-state', JSON.stringify(state));
-};
 
 const getElapsedTime = ({ level, startTime }) => {
 	const currentTime = new Date().getTime();
