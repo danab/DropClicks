@@ -144,7 +144,9 @@ class App extends Component {
 
 			const levelOver = BoardLogic.isLevelOver(board, this.state.movesLeft - 1);
 			const pieceBonus = levelOver ? BoardLogic.getPieceBonus(board) : 0;
-			const timeBonus = levelOver ? this.getTimeBonus() : 0;
+			const timeBonus = levelOver
+				? LevelLogic.getTimeBonus(this.state.level, this.state.startTime)
+				: 0;
 			this.setState({
 				board,
 				movesLeft: this.state.movesLeft - 1,
@@ -167,7 +169,6 @@ class App extends Component {
 			initialized: true,
 			paused: false
 		});
-		window.scrollTo(0, 0);
 		localStorage.removeItem('board-state');
 	};
 	goToNextLevel = () => {
@@ -186,14 +187,14 @@ class App extends Component {
 
 			if (BoardLogic.isLevelOver(board, this.state.movesLeft)) {
 				const pieceBonus = BoardLogic.getPieceBonus(board);
-				const timeBonus = this.getTimeBonus();
+				const timeBonus = LevelLogic.getTimeBonus(
+					this.state.level,
+					this.state.startTime
+				);
 				this.setState({ levelOver: true, pieceBonus, timeBonus });
 			}
 		}
 	};
-	getTimeBonus() {
-		return LevelLogic.getTimeBonus(this.state.level, this.state.startTime);
-	}
 
 	handleKeyDown = e => {
 		switch (e.key) {

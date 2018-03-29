@@ -59,5 +59,5 @@ export const getTimeBonus = (level, startTime) => {
 	const endTime = startTime + levelTime;
 	const percentLeft = (endTime - currentTime) / levelTime;
 
-	return Math.floor(percentLeft * 1000) * 10;
+	return Math.max(Math.floor(percentLeft * 1000) * 10, 5);
 };
