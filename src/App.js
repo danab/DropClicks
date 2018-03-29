@@ -111,7 +111,9 @@ class App extends Component {
 		const levelOver = BoardLogic.isLevelOver(board, this.state.movesLeft);
 
 		const pieceBonus = levelOver ? BoardLogic.getPieceBonus(board) : 0;
-		const timeBonus = levelOver ? this.getTimeBonus() : 0;
+		const timeBonus = levelOver
+			? LevelLogic.getTimeBonus(this.state.level, this.state.startTime)
+			: 0;
 
 		this.setState({
 			bestGroup,
