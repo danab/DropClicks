@@ -9,15 +9,20 @@ body {
 	overflow-x: hidden;
 }
 
-/* Just messing */
+html,
+body,
+#root {
+	/* vh units are weird on mobile */
+	height: 100%;
+}
 #root {
 	display: flex;
-	min-height: 100vh;
 	align-items: center;
 }
 
 #wrapper {
 	margin: auto;
+	padding-bottom: 60px;
 	width: 300px;
 }
 
@@ -194,7 +199,7 @@ h1 span {
 
 .overlay-text {
 	font-size: 1.2em;
-	margin: 10px 20px;
+	margin: 5px 20px 20px;
 	text-align: center;
 }
 
@@ -353,11 +358,20 @@ h1 span {
 	font-family: Courier New, Courier, monospace;
 }
 
-.highscore-initials {
-	float: left;
+.highscore-li {
+	display: flex;
+	justify-content: space-between;
 }
+
+.highscore-place {
+	color: #a9cc73;
+	width: 24px;
+	display: inline-block;
+	/* display: none; */
+}
+
 .highscore-date {
-	float: right;
+	/* float: right; */
 	display: none;
 }
 
@@ -448,9 +462,6 @@ h1 span {
 }
 .highscore-table li {
 	font-size: 1.4em;
-	display: block;
-	position: relative;
-	/* margin-bottom: 10px; */
 	height: 1.2em;
 }
 .highscore-table li.new-score {
@@ -458,11 +469,11 @@ h1 span {
 }
 /* .highscore-table li:not(:nth-child(1)):not(:nth-child(2))  */
 .highscore-score {
-	float: right;
+	/* float: right; */
 }
 .highscore-table li:nth-child(1) {
 	font-size: 2.2em;
-	margin-bottom: 0.4em;
+	margin-bottom: 0.2em;
 }
 .highscore-table li:nth-child(2) {
 	font-size: 1.8em;
@@ -486,6 +497,10 @@ h1 span {
 	text-align: center;
 }
 
+.paused-button-wrapper + .paused-button-wrapper {
+	margin-bottom: 90px;
+}
+
 .paused-button-wrapper .btn {
 	font-size: 1.4em;
 	width: 180px;
@@ -501,9 +516,8 @@ h1 span {
 		text-align: left;
 	}
 	.overlay {
-		min-height: 500px;
+		min-height: 620px;
 		width: 500px;
-		padding-bottom: 136px;
 	}
 	.overlay.overlay-high-score {
 		min-height: 636px;
@@ -512,7 +526,7 @@ h1 span {
 	}
 	.overlay h2 {
 		font-size: 2.8em;
-		margin-bottom: 1.5em;
+		/* margin-bottom: 1.5em; */
 	}
 	.overlay h3 {
 		margin: 20px;
@@ -520,7 +534,6 @@ h1 span {
 
 	.overlay-text {
 		font-size: 1.2em;
-		margin: 40px 20px;
 	}
 
 	.next-level {
@@ -553,9 +566,13 @@ h1 span {
 	.highscore-table {
 		width: 450px;
 	}
+
+	.highscore-initials {
+		width: 130px;
+	}
 	.highscore-score {
-		position: absolute;
-		left: 120px;
+		text-align: left;
+		flex-grow: 1;
 	}
 	.highscore-date {
 		display: block;
@@ -565,5 +582,9 @@ h1 span {
 	}
 	.highscore-table li {
 		height: 1.4em;
+	}
+
+	.paused-button-wrapper + .paused-button-wrapper {
+		margin-bottom: 120px;
 	}
 }

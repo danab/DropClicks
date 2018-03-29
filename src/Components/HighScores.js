@@ -44,7 +44,7 @@ export default class HighScores extends Component {
 			encouragement[Math.floor(Math.random() * encouragement.length)];
 		return (
 			<Fragment>
-				<h2 style={{ marginBottom: '0' }}>High Scores </h2>
+				<h2>High Scores </h2>
 
 				{place && (
 					<div style={{ color: 'white' }} className="overlay-text">
