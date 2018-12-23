@@ -483,6 +483,19 @@ h1 span {
 	font-size: 1.6em;
 	margin-bottom: 5px;
 }
+.highscore-toggle {
+	border: 1px dashed #efef00;
+	display: inline-block;
+	margin-right: -0.1em;
+	padding: 0 0.3em;
+	text-align: right;
+	width: 4.8em;
+}
+.highscore-toggle-arrow {
+	display: block;
+	float: left;
+}
+
 
 .paused-wrapper {
 	display: flex;

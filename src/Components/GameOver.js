@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 import Overlay from './Overlay';
 import HighScores from './HighScores';
@@ -27,11 +28,18 @@ const createNewHighScores = (scoreObj, highScores) => {
 	return highScores.slice(0, HIGH_SCORES_KEPT);
 };
 
-const HighScoreFragment = ({ handleChange, handleSubmit, initials }) => {
+const HighScoreFragment = ({
+	handleChange,
+	handleSubmit,
+	initials,
+	isHighScore
+}) => {
 	return (
 		<Fragment>
 			<div className="overlay-text">
-				You{"'"}ve got a high score! Please enter your initials.
+				{isHighScore
+					? "You've got a high score! Please enter your initials."
+					: 'Submit your score to see you how you did globally!'}
 			</div>
 			<div className="highscore-input">
 				<input
@@ -91,8 +99,8 @@ class GameOver extends Component {
 		super(props);
 		const initials = localStorage.getItem('initials') || '';
 		const highscores = getHighScores();
-
 		const isHighScore = checkHighScore(props.score, highscores.original);
+
 		this.state = {
 			highscores,
 			isHighScore,
@@ -116,44 +124,55 @@ class GameOver extends Component {
 		};
 	}
 
-	handleSubmit = () => {
+	handleSubmit = async () => {
 		if (this.state.initials.length > 1) {
-			const newHighScores = createNewHighScores(
-				this.createScoreObj(),
-				this.state.highscores.original
+			const newHighScores = this.updateLocalHighScores();
+
+			const res = await axios.post(
+				'https://wcs0oio6th.execute-api.us-east-1.amazonaws.com/dev/score',
+				{ ...this.createScoreObj(), type: 'original' }
 			);
 
-			const newHighScoreObj = {
-				...this.state.highscores,
-				original: newHighScores
-			};
 			this.setState({
 				submitted: true,
-				highscores: newHighScoreObj
+				// Shouldn't be used.
+				highscoresLocal: newHighScores,
+				highscoresGlobal: res.data.top10,
+				globalPlace: res.data.place,
+				globalPlays: res.data.total
 			});
-
-			localStorage.setItem('scores', JSON.stringify(newHighScoreObj));
-			localStorage.setItem('initials', this.state.initials);
 		}
 	};
+
+	// This should return an identical object,
+	updateLocalHighScores() {
+		const newHighScores = createNewHighScores(
+			this.createScoreObj(),
+			this.state.highscores.original
+		);
+
+		const newHighScoreObj = {
+			...this.state.highscores,
+			original: newHighScores
+		};
+
+		localStorage.setItem('scores', JSON.stringify(newHighScoreObj));
+		localStorage.setItem('initials', this.state.initials);
+
+		return newHighScores;
+	}
 
 	showHighScores = () => {
 		this.setState({ isHighScore: true, submitted: true });
 	};
 
 	getHighScoreProps() {
-		if (this.state.isHighScore) {
-			return {
-				initials: this.state.initials,
-				handleChange: this.handleChange,
-				handleSubmit: this.handleSubmit
-			};
-		} else {
-			return {
-				restartGame: this.props.restartGame,
-				showHighScores: this.showHighScores
-			};
-		}
+		return {
+			initials: this.state.initials,
+			isHighScore: this.state.isHighScore,
+			handleChange: this.handleChange,
+			handleSubmit: this.handleSubmit
+		};
 	}
 	render() {
 		if (this.state.submitted) {
@@ -167,6 +186,10 @@ class GameOver extends Component {
 						currentInitials={this.state.initials}
 						restartGame={this.props.restartGame}
 						scores={this.state.highscores.original}
+						highscoresLocal={this.state.highscoresLocal}
+						highscoresGlobal={this.state.highscoresGlobal}
+						globalPlace={this.state.globalPlace}
+						globalPlays={this.state.globalPlays}
 					/>
 				</Overlay>
 			);
@@ -182,11 +205,7 @@ class GameOver extends Component {
 						<h3 className="final-score">
 							Score: {this.props.score.toLocaleString()}
 						</h3>
-						{this.state.isHighScore ? (
-							<HighScoreFragment {...highScoreProps} />
-						) : (
-							<NoHighScoreFragment {...highScoreProps} />
-						)}
+						<HighScoreFragment {...highScoreProps} />
 					</Fragment>
 				</Overlay>
 			);

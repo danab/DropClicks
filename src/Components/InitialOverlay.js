@@ -13,7 +13,7 @@ class InitialOverlay extends Component {
 		super(props);
 
 		this.state = {
-			showHighScore: false
+			showHighScore: true
 		};
 	}
 	render() {

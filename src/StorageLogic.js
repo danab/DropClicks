@@ -3,7 +3,7 @@ const defaultScores = {
 };
 
 export const getHighScores = () => {
-	const scores = localStorage.getItem('scores');
+	const scores = localStorage.getItem("scores");
 	return !scores ? defaultScores : JSON.parse(scores);
 };
 
@@ -14,5 +14,5 @@ export const saveState = state => {
 	if (state.levelOver) {
 		// Lets grab the next level
 	}
-	localStorage.setItem('board-state', JSON.stringify(state));
+	localStorage.setItem("board-state", JSON.stringify(state));
 };

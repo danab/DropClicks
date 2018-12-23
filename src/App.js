@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+
 // import { CSSTransitionGroup } from 'react-transition-group';
 import './App.css';
 import { GAME_SIZE, LEVELS } from './constants';
@@ -41,6 +43,7 @@ class App extends Component {
 			};
 		}
 	}
+
 	componentWillMount() {
 		window.addEventListener('keydown', this.handleKeyDown);
 		document.addEventListener('visibilitychange', this.handleVisibilityChange);
