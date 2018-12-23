@@ -21,8 +21,13 @@ class Paused extends Component {
 						</div>
 					</div>
 					<div className="paused-button-wrapper">
-						<div onClick={this.props.restartGame} className="btn">
-							Restart
+						<div onClick={this.props.restartGame('original')} className="btn">
+							Play Original
+						</div>
+					</div>
+					<div className="paused-button-wrapper">
+						<div onClick={this.props.restartGame('puzzle')} className="btn">
+							Play Puzzle
 						</div>
 					</div>
 				</Fragment>

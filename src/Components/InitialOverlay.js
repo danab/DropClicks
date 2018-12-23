@@ -13,7 +13,7 @@ class InitialOverlay extends Component {
 		super(props);
 
 		this.state = {
-			showHighScore: true
+			showHighScore: false
 		};
 	}
 	render() {
@@ -31,10 +31,19 @@ class InitialOverlay extends Component {
 						<div className="button-wrapper" style={{ marginBottom: '3em' }}>
 							<div
 								style={style}
-								onClick={this.props.restartGame}
+								onClick={this.props.restartGame('original')}
 								className="btn"
 							>
-								Play
+								Play Original
+							</div>
+						</div>
+						<div className="button-wrapper" style={{ marginBottom: '3em' }}>
+							<div
+								style={style}
+								onClick={this.props.restartGame('puzzle')}
+								className="btn"
+							>
+								Play Puzzle
 							</div>
 						</div>
 						<div className="button-wrapper">
@@ -49,6 +58,7 @@ class InitialOverlay extends Component {
 					</Fragment>
 				) : (
 					<HighScores
+						gameType="original"
 						restartGame={this.props.restartGame}
 						scores={getHighScores().original}
 					/>

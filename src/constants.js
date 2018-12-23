@@ -1,6 +1,6 @@
-const GAME_SIZE = window.innerWidth > 599 ? 500 : 300;
+export const GAME_SIZE = window.innerWidth > 599 ? 500 : 300;
 
-const LEVELS = [
+export const LEVELS = [
 	// Math done in my head...could...be wrong.
 	{ dim: 4, colors: 2, time: 20, movesLeft: 3 }, // 8
 	{ dim: 5, colors: 2, time: 20, movesLeft: 3 }, // 12.5
@@ -17,9 +17,7 @@ const LEVELS = [
 	// { dim: 13, colors: 4, time: 10, movesLeft: 3 }, // 42.25
 	// { dim: 14, colors: 4, time: 30, movesLeft: 3 } // 48
 ];
-const GAME_STYLE = {
+export const GAME_STYLE = {
 	height: GAME_SIZE + 'px',
 	width: GAME_SIZE + 'px'
 };
-
-export { GAME_SIZE, GAME_STYLE, LEVELS };

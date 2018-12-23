@@ -32,6 +32,8 @@ class Overlays extends Component {
 					resumeGame={this.props.resumeGame}
 				/>
 			);
+		} else if (this.props.gameOver) {
+			return <GameOver {...this.props} />;
 		} else if (this.props.levelOver) {
 			return (
 				<LevelOver
@@ -39,11 +41,11 @@ class Overlays extends Component {
 					level={this.props.level + 1}
 					goToNextLevel={this.props.goToNextLevel}
 					timeBonus={this.props.timeBonus}
+					levelBonus={this.props.levelBonus}
+					gameType={this.props.gameType}
 					pieceBonus={this.props.pieceBonus}
 				/>
 			);
-		} else if (this.props.gameOver) {
-			return <GameOver {...this.props} />;
 		}
 	}
 }

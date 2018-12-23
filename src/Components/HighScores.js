@@ -82,7 +82,7 @@ export default class HighScores extends Component {
 	constructor(props) {
 		super(props);
 		// This should be a prop
-		const type = 'original';
+		const { gameType } = props;
 
 		// get local scores
 		const localScores = getHighScores();
@@ -91,12 +91,12 @@ export default class HighScores extends Component {
 		let showGlobal = true;
 		if (this.props.currentScore && this.props.globalPlace > 10) {
 			// Show if it's a local high score, but not global
-			if (this.getPlace(localScores[type])) {
+			if (this.getPlace(localScores[gameType])) {
 				showGlobal = false;
 			}
 		}
 		this.state = {
-			type,
+			gameType,
 			loading: true,
 			localScores,
 			showGlobal
@@ -128,8 +128,8 @@ export default class HighScores extends Component {
 	}
 
 	getCurrentScores() {
-		const { type, showGlobal, globalScores, localScores } = this.state;
-		return showGlobal ? globalScores[type] : localScores[type];
+		const { gameType, showGlobal, globalScores, localScores } = this.state;
+		return showGlobal ? globalScores[gameType] : localScores[gameType];
 	}
 
 	toggle = () => {
@@ -171,8 +171,11 @@ export default class HighScores extends Component {
 				</div>
 
 				<div className="btn-wrapper">
-					<div onClick={this.props.restartGame} className="btn">
-						Play Again
+					<div onClick={this.props.restartGame('original')} className="btn">
+						Play Original
+					</div>
+					<div onClick={this.props.restartGame('puzzle')} className="btn">
+						Play Puzzle
 					</div>
 				</div>
 			</Fragment>

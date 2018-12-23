@@ -99,7 +99,7 @@ class GameOver extends Component {
 		super(props);
 		const initials = localStorage.getItem('initials') || '';
 		const highscores = getHighScores();
-		const isHighScore = checkHighScore(props.score, highscores.original);
+		const isHighScore = checkHighScore(props.score, highscores[props.gameType]);
 
 		this.state = {
 			highscores,
@@ -107,8 +107,6 @@ class GameOver extends Component {
 			initials
 		};
 	}
-
-	componentDidMount() {}
 
 	handleChange = e => {
 		this.setState({ initials: e.target.value.toUpperCase() });
@@ -130,7 +128,7 @@ class GameOver extends Component {
 
 			const res = await axios.post(
 				'https://wcs0oio6th.execute-api.us-east-1.amazonaws.com/dev/score',
-				{ ...this.createScoreObj(), type: 'original' }
+				{ ...this.createScoreObj(), type: this.props.gameType }
 			);
 
 			this.setState({
@@ -146,14 +144,15 @@ class GameOver extends Component {
 
 	// This should return an identical object,
 	updateLocalHighScores() {
+		const { gameType } = this.props;
 		const newHighScores = createNewHighScores(
 			this.createScoreObj(),
-			this.state.highscores.original
+			this.state.highscores[gameType]
 		);
 
 		const newHighScoreObj = {
 			...this.state.highscores,
-			original: newHighScores
+			[gameType]: newHighScores
 		};
 
 		localStorage.setItem('scores', JSON.stringify(newHighScoreObj));
@@ -190,6 +189,7 @@ class GameOver extends Component {
 						highscoresGlobal={this.state.highscoresGlobal}
 						globalPlace={this.state.globalPlace}
 						globalPlays={this.state.globalPlays}
+						gameType={this.props.gameType}
 					/>
 				</Overlay>
 			);

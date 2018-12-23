@@ -1,10 +1,20 @@
 const defaultScores = {
-	original: []
+	original: [],
+	puzzle: []
 };
 
 export const getHighScores = () => {
-	const scores = localStorage.getItem("scores");
-	return !scores ? defaultScores : JSON.parse(scores);
+	const scores = localStorage.getItem('scores');
+	if (scores) {
+		const parsedScores = JSON.parse(scores);
+		// Previous versions will not have a puzzle array
+		if (!parsedScores.puzzle) {
+			parsedScores.puzzle = [];
+		}
+		return parsedScores;
+	} else {
+		return defaultScores;
+	}
 };
 
 export const saveState = state => {
@@ -14,5 +24,5 @@ export const saveState = state => {
 	if (state.levelOver) {
 		// Lets grab the next level
 	}
-	localStorage.setItem("board-state", JSON.stringify(state));
+	localStorage.setItem('board-state', JSON.stringify(state));
 };
