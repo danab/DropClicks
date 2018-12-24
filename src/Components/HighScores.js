@@ -75,6 +75,9 @@ export default class HighScores extends Component {
 	static propTypes = {
 		currentScore: PropTypes.number,
 		currentInitials: PropTypes.string,
+		gameType: PropTypes.string.isRequired,
+		globalPlace: PropTypes.number,
+		globalPlays: PropTypes.number,
 		restartGame: PropTypes.func.isRequired,
 		scores: PropTypes.array.isRequired
 	};

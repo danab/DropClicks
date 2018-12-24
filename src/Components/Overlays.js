@@ -8,10 +8,12 @@ import GameOver from './GameOver';
 
 class Overlays extends Component {
 	static propTypes = {
+		gameType: PropTypes.string.isRequired,
 		gameOver: PropTypes.bool.isRequired,
 		goToNextLevel: PropTypes.func.isRequired,
 		initialized: PropTypes.bool.isRequired,
 		level: PropTypes.number.isRequired,
+		levelBonus: PropTypes.number,
 		levelOver: PropTypes.bool.isRequired,
 		paused: PropTypes.bool.isRequired,
 		pieceBonus: PropTypes.number,

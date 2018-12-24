@@ -35,7 +35,7 @@ class App extends Component {
 			this.state = {
 				// Show initial play screen
 				initialized: false,
-				gameType: 'puzzle',
+				gameType: 'original',
 				...LevelLogic.newGameState(),
 				// So timer isn't active
 				gameOver: true,

@@ -25,7 +25,7 @@ class Square extends PureComponent {
 		let top;
 		let left;
 
-		const modRotation = (rotation % 4 + 4) % 4;
+		const modRotation = ((rotation % 4) + 4) % 4;
 
 		switch (modRotation) {
 			case 0:

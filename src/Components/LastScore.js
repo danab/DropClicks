@@ -9,7 +9,9 @@ class LastScore extends Component {
 		const score =
 			this.props.score > 0
 				? '+' + this.props.score.toLocaleString()
-				: this.props.score === 0 ? '' : this.props.score;
+				: this.props.score === 0
+				? ''
+				: this.props.score;
 		return (
 			<div
 				style={{

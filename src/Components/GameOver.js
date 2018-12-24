@@ -63,7 +63,8 @@ const HighScoreFragment = ({
 HighScoreFragment.propTypes = {
 	handleChange: PropTypes.func.isRequired,
 	handleSubmit: PropTypes.func.isRequired,
-	initials: PropTypes.string.isRequired
+	initials: PropTypes.string.isRequired,
+	isHighScore: PropTypes.bool.isRequired
 };
 
 const NoHighScoreFragment = ({ restartGame, showHighScores }) => {
@@ -89,11 +90,12 @@ NoHighScoreFragment.propTypes = {
 
 class GameOver extends Component {
 	static propTypes = {
-		score: PropTypes.number.isRequired,
-		level: PropTypes.number.isRequired,
 		bestGroup: PropTypes.number.isRequired,
+		gameType: PropTypes.string.isRequired,
+		level: PropTypes.number.isRequired,
 		restartGame: PropTypes.func.isRequired,
-		rotation: PropTypes.number.isRequired
+		rotation: PropTypes.number.isRequired,
+		score: PropTypes.number.isRequired
 	};
 	constructor(props) {
 		super(props);
