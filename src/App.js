@@ -177,6 +177,11 @@ class App extends Component {
 		});
 		localStorage.removeItem('board-state');
 	};
+
+	resetEverything = () => {
+		this.setState({ initialized: false });
+	};
+
 	goToNextLevel = () => {
 		const newState = LevelLogic.getNextLevelState(this.state);
 		this.setState(newState);
@@ -323,6 +328,7 @@ class App extends Component {
 						<Overlays
 							restartGame={this.handleRestart}
 							resumeGame={this.handleResume}
+							resetGame={this.resetEverything}
 							rotation={effectiveRotation}
 							goToNextLevel={this.goToNextLevel}
 							{...this.state}

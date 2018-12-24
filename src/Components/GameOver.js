@@ -31,6 +31,7 @@ const createNewHighScores = (scoreObj, highScores) => {
 const HighScoreFragment = ({
 	handleChange,
 	handleSubmit,
+	resetGame,
 	initials,
 	isHighScore
 }) => {
@@ -55,6 +56,11 @@ const HighScoreFragment = ({
 				<div onClick={handleSubmit} className="btn">
 					Submit
 				</div>
+				{!isHighScore && (
+					<div onClick={resetGame} className="btn">
+						Play Again
+					</div>
+				)}
 			</div>
 		</Fragment>
 	);
@@ -64,7 +70,8 @@ HighScoreFragment.propTypes = {
 	handleChange: PropTypes.func.isRequired,
 	handleSubmit: PropTypes.func.isRequired,
 	initials: PropTypes.string.isRequired,
-	isHighScore: PropTypes.bool.isRequired
+	isHighScore: PropTypes.bool.isRequired,
+	resetGame: PropTypes.func.isRequired
 };
 
 const NoHighScoreFragment = ({ restartGame, showHighScores }) => {
@@ -172,6 +179,7 @@ class GameOver extends Component {
 			initials: this.state.initials,
 			isHighScore: this.state.isHighScore,
 			handleChange: this.handleChange,
+			resetGame: this.props.resetGame,
 			handleSubmit: this.handleSubmit
 		};
 	}

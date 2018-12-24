@@ -17,6 +17,7 @@ class Overlays extends Component {
 		levelOver: PropTypes.bool.isRequired,
 		paused: PropTypes.bool.isRequired,
 		pieceBonus: PropTypes.number,
+		resetGame: PropTypes.func.isRequired,
 		restartGame: PropTypes.func.isRequired,
 		resumeGame: PropTypes.func.isRequired,
 		rotation: PropTypes.number.isRequired,
