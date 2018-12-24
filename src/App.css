@@ -510,13 +510,13 @@ h1 span {
 	text-align: center;
 }
 
-.paused-button-wrapper + .paused-button-wrapper {
-	margin-bottom: 90px;
+.paused-button-wrapper:first-of-type {
+	margin-bottom: 40px;
 }
 
 .paused-button-wrapper .btn {
 	font-size: 1.4em;
-	width: 180px;
+	width: 200px;
 }
 @media (min-width: 600px) {
 	#wrapper {
@@ -597,7 +597,7 @@ h1 span {
 		height: 1.4em;
 	}
 
-	.paused-button-wrapper + .paused-button-wrapper {
+	.paused-button-wrapper:first-of-type{
 		margin-bottom: 120px;
 	}
 }
