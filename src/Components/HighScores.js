@@ -36,8 +36,8 @@ const formatDate = date => {
 
 const XMAS = () => (
 	<span>
-		<span style={{ color: 'red' }}>XMAS</span>{' '}
-		<span style={{ color: '#00c900' }}>'18</span>
+		<span style={{ color: 'red' }}>XMAS</span>
+		<span style={{ color: '#00c900' }}>18❤️</span>
 	</span>
 );
 const HighScoreRow = ({ score, i, place }) => {

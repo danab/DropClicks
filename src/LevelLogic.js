@@ -1,7 +1,8 @@
-import { LEVELS } from './constants';
+import { get_levels } from './constants';
 import { createBoard } from './BoardLogic';
 
-export const getLevelInfo = level => {
+export const getLevelInfo = (level, gameType) => {
+	const LEVELS = get_levels(gameType);
 	const { dim, colors, time, movesLeft } = LEVELS[level];
 	return {
 		level,
@@ -18,13 +19,14 @@ export const getLevelInfo = level => {
 export const getNextLevelState = state => {
 	const level = state.level + 1;
 
+	const LEVELS = get_levels(state.gameType);
 	if (level === LEVELS.length) {
 		const score = state.score + state.pieceBonus + state.timeBonus;
 		const level = state.level + 1;
 		return { gameOver: true, levelOver: false, score, level };
 	}
 
-	const levelInfo = getLevelInfo(level);
+	const levelInfo = getLevelInfo(level, state.gameType);
 	return {
 		...levelInfo,
 		hasBeenPaused: false,
@@ -35,9 +37,9 @@ export const getNextLevelState = state => {
 	};
 };
 
-export const newGameState = () => {
+export const newGameState = gameType => {
 	const level = 0;
-	const levelInfo = getLevelInfo(level);
+	const levelInfo = getLevelInfo(level, gameType);
 
 	return {
 		...levelInfo,
@@ -53,7 +55,8 @@ export const newGameState = () => {
 	};
 };
 
-export const getTimeBonus = (level, startTime) => {
+export const getTimeBonus = (level, startTime, gameType) => {
+	const LEVELS = get_levels(gameType);
 	const levelTime = LEVELS[level].time * 1000;
 	const currentTime = new Date().getTime();
 	const endTime = startTime + levelTime;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 // import { CSSTransitionGroup } from 'react-transition-group';
 import './App.css';
-import { GAME_SIZE, LEVELS } from './constants';
+import { GAME_SIZE, get_levels } from './constants';
 
 import * as BoardLogic from './BoardLogic';
 import * as LevelLogic from './LevelLogic';
@@ -14,7 +14,8 @@ import Buttons from './Components/Buttons';
 import LastScore from './Components/LastScore';
 import Overlays from './Components/Overlays';
 
-const getElapsedTime = ({ level, startTime }) => {
+const getElapsedTime = ({ level, startTime, gameType }) => {
+	const LEVELS = get_levels(gameType);
 	const currentTime = new Date().getTime();
 
 	const levelTime = LEVELS[level].time * 1000;
@@ -36,7 +37,7 @@ class App extends Component {
 				// Show initial play screen
 				initialized: false,
 				gameType: 'original',
-				...LevelLogic.newGameState(),
+				...LevelLogic.newGameState('original'),
 				// So timer isn't active
 				gameOver: true,
 				paused: false
@@ -170,7 +171,7 @@ class App extends Component {
 
 	handleRestart = gameType => () => {
 		this.setState({
-			...LevelLogic.newGameState(),
+			...LevelLogic.newGameState(gameType),
 			gameType,
 			initialized: true,
 			paused: false
@@ -255,7 +256,7 @@ class App extends Component {
 		if (gameType === 'original') {
 			// Return bonuses
 			const pieceBonus = BoardLogic.getPieceBonus(board);
-			const timeBonus = LevelLogic.getTimeBonus(level, startTime);
+			const timeBonus = LevelLogic.getTimeBonus(level, startTime, gameType);
 			return { pieceBonus, timeBonus };
 		} else {
 			// Puzzle

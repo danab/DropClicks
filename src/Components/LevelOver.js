@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Overlay from './Overlay';
 
-import { LEVELS } from '../constants';
+import { get_levels } from '../constants';
 
 class LevelOver extends Component {
 	static propTypes = {
@@ -25,6 +25,7 @@ class LevelOver extends Component {
 			rotation,
 			goToNextLevel
 		} = this.props;
+		const LEVELS = get_levels(gameType);
 		const completed = level === LEVELS.length;
 		const totalBonus = timeBonus + pieceBonus + levelBonus;
 		return (
