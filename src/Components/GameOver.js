@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -127,7 +127,7 @@ class GameOver extends Component {
 			initials: this.state.initials,
 			level: this.props.level,
 			bestGroup: this.props.bestGroup,
-			date: moment().toISOString()
+			date: DateTime.local().toISO()
 		};
 	}
 
