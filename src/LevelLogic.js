@@ -21,7 +21,7 @@ export const getNextLevelState = state => {
 
 	const LEVELS = get_levels(state.gameType);
 	if (level === LEVELS.length) {
-		const score = state.score + state.pieceBonus + state.timeBonus;
+		const score = state.score + state.pieceBonus + state.timeBonus + state.levelBonus;
 		const level = state.level + 1;
 		return { gameOver: true, levelOver: false, score, level };
 	}
@@ -32,8 +32,8 @@ export const getNextLevelState = state => {
 		hasBeenPaused: false,
 		elapsedTime: 0,
 		levelOver: false,
-		lastScore: state.pieceBonus + state.timeBonus,
-		score: state.score + state.pieceBonus + state.timeBonus
+		lastScore: state.pieceBonus + state.timeBonus + state.levelBonus,
+		score: state.score + state.pieceBonus + state.timeBonus + state.levelBonus
 	};
 };
 
