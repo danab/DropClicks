@@ -23,12 +23,12 @@ const yesterday = DateTime.local()
 
 const formatDate = date => {
 	switch (date) {
+		case '12/25/2018':
+			return <XMAS />;
 		case today:
 			return 'Today';
 		case yesterday:
 			return 'Yesterday';
-		case '12/25/2018':
-			return <XMAS />;
 		default:
 			return date;
 	}
