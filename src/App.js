@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+
 // import { CSSTransitionGroup } from 'react-transition-group';
 import './App.css';
-import { GAME_SIZE, LEVELS } from './constants';
+import { GAME_SIZE, get_levels } from './constants';
 
 import * as BoardLogic from './BoardLogic';
 import * as LevelLogic from './LevelLogic';
@@ -13,7 +14,8 @@ import Buttons from './Components/Buttons';
 import LastScore from './Components/LastScore';
 import Overlays from './Components/Overlays';
 
-const getElapsedTime = ({ level, startTime }) => {
+const getElapsedTime = ({ level, startTime, gameType }) => {
+	const LEVELS = get_levels(gameType);
 	const currentTime = new Date().getTime();
 
 	const levelTime = LEVELS[level].time * 1000;
@@ -34,13 +36,15 @@ class App extends Component {
 			this.state = {
 				// Show initial play screen
 				initialized: false,
-				...LevelLogic.newGameState(),
+				gameType: 'original',
+				...LevelLogic.newGameState('original'),
 				// So timer isn't active
 				gameOver: true,
 				paused: false
 			};
 		}
 	}
+
 	componentWillMount() {
 		window.addEventListener('keydown', this.handleKeyDown);
 		document.addEventListener('visibilitychange', this.handleVisibilityChange);
@@ -110,10 +114,12 @@ class App extends Component {
 
 		const levelOver = BoardLogic.isLevelOver(board, this.state.movesLeft);
 
-		const pieceBonus = levelOver ? BoardLogic.getPieceBonus(board) : 0;
-		const timeBonus = levelOver
-			? LevelLogic.getTimeBonus(this.state.level, this.state.startTime)
-			: 0;
+		const {
+			pieceBonus = 0,
+			timeBonus = 0,
+			levelBonus = 0,
+			gameOver = false
+		} = this.handleLevelOver(levelOver, board);
 
 		this.setState({
 			bestGroup,
@@ -125,7 +131,9 @@ class App extends Component {
 			levelOver,
 			pieceBonus,
 			timeBonus,
-			clicks
+			levelBonus,
+			clicks,
+			gameOver
 		});
 	};
 	handleRotate = dir => () => {
@@ -145,16 +153,12 @@ class App extends Component {
 			const board = BoardLogic.randomizeBoard(this.state.board);
 
 			const levelOver = BoardLogic.isLevelOver(board, this.state.movesLeft - 1);
-			const pieceBonus = levelOver ? BoardLogic.getPieceBonus(board) : 0;
-			const timeBonus = levelOver
-				? LevelLogic.getTimeBonus(this.state.level, this.state.startTime)
-				: 0;
+			const levelOverState = this.handleLevelOver(levelOver, board);
 			this.setState({
 				board,
 				movesLeft: this.state.movesLeft - 1,
 				levelOver,
-				pieceBonus,
-				timeBonus
+				...levelOverState
 			});
 		}
 	};
@@ -165,14 +169,20 @@ class App extends Component {
 		);
 	}
 
-	handleRestart = () => {
+	handleRestart = gameType => () => {
 		this.setState({
-			...LevelLogic.newGameState(),
+			...LevelLogic.newGameState(gameType),
+			gameType,
 			initialized: true,
 			paused: false
 		});
 		localStorage.removeItem('board-state');
 	};
+
+	resetEverything = () => {
+		this.setState({ initialized: false });
+	};
+
 	goToNextLevel = () => {
 		const newState = LevelLogic.getNextLevelState(this.state);
 		this.setState(newState);
@@ -188,12 +198,8 @@ class App extends Component {
 			this.setState({ rotating: false, rotation, falling: true, board });
 
 			if (BoardLogic.isLevelOver(board, this.state.movesLeft)) {
-				const pieceBonus = BoardLogic.getPieceBonus(board);
-				const timeBonus = LevelLogic.getTimeBonus(
-					this.state.level,
-					this.state.startTime
-				);
-				this.setState({ levelOver: true, pieceBonus, timeBonus });
+				const levelOverState = this.handleLevelOver(true, board);
+				this.setState({ levelOver: true, ...levelOverState });
 			}
 		}
 	};
@@ -239,6 +245,28 @@ class App extends Component {
 			);
 		}, []);
 	}
+
+	// Meaning, there are no more clicks remaining in the board
+	handleLevelOver = (isLevelOver, board) => {
+		if (!isLevelOver) {
+			return {};
+		}
+		const { gameType, level, startTime } = this.state;
+
+		if (gameType === 'original') {
+			// Return bonuses
+			const pieceBonus = BoardLogic.getPieceBonus(board);
+			const timeBonus = LevelLogic.getTimeBonus(level, startTime, gameType);
+			return { pieceBonus, timeBonus };
+		} else {
+			// Puzzle
+			const gameOver = board.length > 0;
+			const pieceBonus = BoardLogic.getPieceBonus(board);
+			const levelBonus = (level + 1) * 1000;
+
+			return { gameOver, pieceBonus, levelBonus };
+		}
+	};
 
 	render() {
 		// Resize when possible?
@@ -301,6 +329,7 @@ class App extends Component {
 						<Overlays
 							restartGame={this.handleRestart}
 							resumeGame={this.handleResume}
+							resetGame={this.resetEverything}
 							rotation={effectiveRotation}
 							goToNextLevel={this.goToNextLevel}
 							{...this.state}
@@ -322,14 +351,16 @@ class App extends Component {
 						{/* </CSSTransitionGroup> */}
 					</div>
 				</div>
-				<Timer
-					startTime={this.state.startTime}
-					active={!inactive}
-					time={this.state.time}
-					hasBeenPaused={this.state.hasBeenPaused}
-					elapsedTime={this.state.elapsedTime}
-					setGameOver={this.setGameOver}
-				/>
+				{this.state.gameType === 'original' && (
+					<Timer
+						startTime={this.state.startTime}
+						active={!inactive}
+						time={this.state.time}
+						hasBeenPaused={this.state.hasBeenPaused}
+						elapsedTime={this.state.elapsedTime}
+						setGameOver={this.setGameOver}
+					/>
+				)}
 				<Buttons
 					active={!inactive}
 					handleRotate={this.handleRotate}

@@ -8,13 +8,16 @@ import GameOver from './GameOver';
 
 class Overlays extends Component {
 	static propTypes = {
+		gameType: PropTypes.string.isRequired,
 		gameOver: PropTypes.bool.isRequired,
 		goToNextLevel: PropTypes.func.isRequired,
 		initialized: PropTypes.bool.isRequired,
 		level: PropTypes.number.isRequired,
+		levelBonus: PropTypes.number,
 		levelOver: PropTypes.bool.isRequired,
 		paused: PropTypes.bool.isRequired,
 		pieceBonus: PropTypes.number,
+		resetGame: PropTypes.func.isRequired,
 		restartGame: PropTypes.func.isRequired,
 		resumeGame: PropTypes.func.isRequired,
 		rotation: PropTypes.number.isRequired,
@@ -32,6 +35,8 @@ class Overlays extends Component {
 					resumeGame={this.props.resumeGame}
 				/>
 			);
+		} else if (this.props.gameOver) {
+			return <GameOver {...this.props} />;
 		} else if (this.props.levelOver) {
 			return (
 				<LevelOver
@@ -39,11 +44,11 @@ class Overlays extends Component {
 					level={this.props.level + 1}
 					goToNextLevel={this.props.goToNextLevel}
 					timeBonus={this.props.timeBonus}
+					levelBonus={this.props.levelBonus}
+					gameType={this.props.gameType}
 					pieceBonus={this.props.pieceBonus}
 				/>
 			);
-		} else if (this.props.gameOver) {
-			return <GameOver {...this.props} />;
 		}
 	}
 }

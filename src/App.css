@@ -238,7 +238,7 @@ h1 span {
 }
 
 .color-4 {
-	background: #0b2239;
+	background: #af3f83;
 }
 .color-3 {
 	background: #0a4a2c;
@@ -483,6 +483,19 @@ h1 span {
 	font-size: 1.6em;
 	margin-bottom: 5px;
 }
+.highscore-toggle {
+	border: 1px dashed #efef00;
+	display: inline-block;
+	margin-right: -0.1em;
+	padding: 0 0.3em;
+	text-align: right;
+	width: 4.8em;
+}
+.highscore-toggle-arrow {
+	display: block;
+	float: left;
+}
+
 
 .paused-wrapper {
 	display: flex;
@@ -497,13 +510,13 @@ h1 span {
 	text-align: center;
 }
 
-.paused-button-wrapper + .paused-button-wrapper {
-	margin-bottom: 90px;
+.paused-button-wrapper:first-of-type {
+	margin-bottom: 40px;
 }
 
 .paused-button-wrapper .btn {
 	font-size: 1.4em;
-	width: 180px;
+	width: 200px;
 }
 @media (min-width: 600px) {
 	#wrapper {
@@ -584,7 +597,7 @@ h1 span {
 		height: 1.4em;
 	}
 
-	.paused-button-wrapper + .paused-button-wrapper {
+	.paused-button-wrapper:first-of-type{
 		margin-bottom: 120px;
 	}
 }

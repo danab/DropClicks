@@ -13,7 +13,8 @@ class InitialOverlay extends Component {
 		super(props);
 
 		this.state = {
-			showHighScore: false
+			showHighScore: false,
+			gameType: 'original'
 		};
 	}
 	render() {
@@ -22,7 +23,7 @@ class InitialOverlay extends Component {
 			margin: 0,
 			padding: '1.175em 1.125em',
 			textAlign: 'center',
-			width: '200px'
+			width: '220px'
 		};
 		return (
 			<Overlay noAnimation highScore={this.state.showHighScore}>
@@ -31,24 +32,57 @@ class InitialOverlay extends Component {
 						<div className="button-wrapper" style={{ marginBottom: '3em' }}>
 							<div
 								style={style}
-								onClick={this.props.restartGame}
+								onClick={this.props.restartGame('original')}
 								className="btn"
 							>
-								Play
+								Play Original
+								<i style={{ marginLeft: '0.2em' }} className="fa fa-clock" />
+							</div>
+						</div>
+						<div className="button-wrapper" style={{ marginBottom: '3em' }}>
+							<div
+								style={style}
+								onClick={this.props.restartGame('puzzle')}
+								className="btn"
+							>
+								Play Puzzle
+								<i
+									style={{ marginLeft: '0.2em' }}
+									className="fa fa-puzzle-piece"
+								/>
+							</div>
+						</div>
+						<div className="button-wrapper" style={{ marginBottom: '3em' }}>
+							<div
+								style={style}
+								onClick={() =>
+									this.setState({ showHighScore: true, gameType: 'original' })
+								}
+								className="btn"
+							>
+								High Scores
+								<i style={{ marginLeft: '0.2em' }} className="fa fa-clock" />
 							</div>
 						</div>
 						<div className="button-wrapper">
 							<div
 								style={style}
-								onClick={() => this.setState({ showHighScore: true })}
+								onClick={() =>
+									this.setState({ showHighScore: true, gameType: 'puzzle' })
+								}
 								className="btn"
 							>
 								High Scores
+								<i
+									style={{ marginLeft: '0.2em' }}
+									className="fa fa-puzzle-piece"
+								/>
 							</div>
 						</div>
 					</Fragment>
 				) : (
 					<HighScores
+						gameType={this.state.gameType}
 						restartGame={this.props.restartGame}
 						scores={getHighScores().original}
 					/>
